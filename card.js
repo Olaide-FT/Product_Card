@@ -292,7 +292,7 @@ const products = [
     image: "https://images.unsplash.com/photo-1588854337061-b8f5b4c6b2f0"
   },
 
-  
+
   {
     id: 36,
     name: "Modern Black Joggers",
@@ -432,97 +432,165 @@ const products = [
 //   });
 // }
 
+/// SELECT ELEMENTS 
 let productContainer = document.querySelector('#productContainer');
 let pagination = document.querySelector('#pagination');
+
 let searchForm = document.querySelector('#searchForm');
 let searchInput = document.querySelector('#searchInput');
+
+let mobileSearchInput = document.querySelector('#mobileSearchInput');
+
 let menuBtn = document.querySelector('#menuBtn');
 let mobileMenu = document.querySelector('#mobileMenu');
 
+let categoryButtons = document.querySelectorAll('.category-btn');
+
+
+//  VARIABLES 
 let filteredProducts = products.slice();
 let currentPage = 1;
 let itemsPerPage = 8;
 
 
-// ================= DISPLAY PRODUCTS =================
+// DISPLAY PRODUCTS 
 function displayProducts() {
 
-    let start = (currentPage - 1) * itemsPerPage;
-    let paginatedItems = filteredProducts.slice(start, start + itemsPerPage);
+  let start = (currentPage - 1) * itemsPerPage;
+  let paginatedItems = filteredProducts.slice(start, start + itemsPerPage);
 
-    productContainer.innerHTML = paginatedItems.map(function(value, index, array){
-        return `
-        <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+  productContainer.innerHTML = paginatedItems.map(function (value, index, array) {
+    return `
+    <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden fade-in">
 
-            <img src="${value.image}" class="w-full h-60 object-cover">
+      <img src="${value.image}" class="w-full h-56 sm:h-60 md:h-64 object-cover">
 
-            <div class="p-4">
-                <h3 class="font-semibold">${value.name}</h3>
+      <div class="p-4">
+        <h3 class="font-semibold">${value.name}</h3>
 
-                <div class="flex gap-3 mt-2 items-center">
-                    <span class="text-red-500 font-bold">₦${value.newPrice}</span>
-                    <span class="text-gray-400 line-through">₦${value.oldPrice}</span>
-                </div>
-
-                <button class="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-red-500">
-                    Add to Cart
-                </button>
-            </div>
-
+        <div class="flex gap-3 mt-2 items-center">
+          <span class="text-red-500 font-bold">₦${value.newPrice}</span>
+          <span class="text-gray-400 line-through">₦${value.oldPrice}</span>
         </div>
-        `;
-    }).join('');
 
-    showPagination();
+        <button class="w-full mt-4 bg-black text-white py-2 rounded-lg hover:bg-red-500">
+          Add to Cart
+        </button>
+      </div>
+
+    </div>
+    `;
+  }).join('');
+
+  showPagination();
+  showAnimation();
 }
 
 
-// ================= PAGINATION =================
+//  PAGINATION 
 function showPagination() {
 
-    let pages = Math.ceil(filteredProducts.length / itemsPerPage);
+  let pages = Math.ceil(filteredProducts.length / itemsPerPage);
+  pagination.innerHTML = '';
 
-    pagination.innerHTML = '';
+  for (let i = 1; i <= pages; i++) {
 
-    for (let i = 1; i <= pages; i++) {
-
-        pagination.innerHTML += `
-        <button onclick="changePage(${i})"
+    pagination.innerHTML += `
+      <button onclick="changePage(${i})"
         class="px-4 py-2 border rounded-lg ${i === currentPage ? "bg-black text-white" : ""}">
         ${i}
-        </button>
-        `;
-    }
+      </button>
+    `;
+  }
 }
 
-function changePage(page){
-    currentPage = page;
-    displayProducts();
+function changePage(page) {
+  currentPage = page;
+  displayProducts();
 }
 
 
-// ================= SEARCH =================
-searchForm.addEventListener('submit', function(e){
+// SEARCH FUNCTION 
+function filterProducts(value) {
 
+  filteredProducts = products.filter(function (product) {
+    return product.name.toLowerCase().includes(value.toLowerCase());
+  });
+
+  currentPage = 1;
+  displayProducts();
+}
+
+
+//  DESKTOP SEARCH 
+if (searchForm) {
+
+  searchForm.addEventListener('submit', function (e) {
     e.preventDefault();
+    filterProducts(searchInput.value);
+  });
 
-    let searchValue = document.querySelector('#searchInput').value;
+}
 
 
-    filteredProducts = products.filter(function(value, index, array){
-        return value.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
+// MOBILE SEARCH 
+if (mobileSearchInput) {
+
+  mobileSearchInput.addEventListener('input', function () {
+    filterProducts(this.value);
+  });
+
+}
+
+console.log(mobileSearchInput);
+
+
+// CATEGORY FILTER 
+categoryButtons.forEach(function (btn) {
+
+  btn.addEventListener('click', function () {
+
+    let category = this.getAttribute('data-category');
+
+    if (category === "all") {
+      filteredProducts = products.slice();
+    } else {
+      filteredProducts = products.filter(function (product) {
+        return product.category === category;
+      });
+    }
 
     currentPage = 1;
     displayProducts();
+  });
+
 });
 
 
-// ================= RESPONSIVE MENU =================
-menuBtn.addEventListener('click', function(){
+// SCROLL ANIMATION 
+function showAnimation() {
+
+  var cards = document.querySelectorAll(".fade-in");
+
+  cards.forEach(function (card, index) {
+
+    setTimeout(function () {
+      card.classList.add("show");
+    }, index * 100);
+
+  });
+}
+
+
+// RESPONSIVE MENU 
+if (menuBtn) {
+  menuBtn.addEventListener('click', function () {
     mobileMenu.classList.toggle('hidden');
-});
+  });
+}
 
 
-// ================= LOAD PRODUCTS =================
+//  LOAD PRODUCTS 
 displayProducts();
+
+

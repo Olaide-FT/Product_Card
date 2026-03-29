@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Fashion Store</title>
+  <title>Product Card</title>
 
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -47,9 +47,7 @@
 
         <!-- SEARCH (desktop only) -->
         <form id="searchForm" class="hidden md:block">
-          <input id="searchInput"
-            type="text"
-            placeholder="Search products"
+          <input id="searchInput" type="text" placeholder="Search products"
             class="border px-4 py-2 rounded-lg outline-none w-56">
         </form>
 
@@ -77,12 +75,10 @@
       <a href="#" class="block">Categories</a>
       <a href="#" class="block">Contact</a>
 
-      <!-- MOBILE SEARCH -->
-      <input id="mobileSearch"
-        type="text"
-        placeholder="Search products"
-        class="w-full border px-4 py-2 rounded-lg mt-2">
-    </div>
+      <form id="mobileSearchForm">
+        <input id="mobileSearchInput" type="text" placeholder="Search products"
+          class="w-full border px-4 py-2 rounded-lg mt-2">
+      </form>
   </header>
 
 
@@ -102,8 +98,7 @@
 
   <!-- PRODUCTS -->
   <section class="max-w-7xl mx-auto px-4 mt-8 md:mt-10">
-    <div id="productContainer"
-      class="grid 
+    <div id="productContainer" class="grid 
       grid-cols-2 
       sm:grid-cols-2 
       md:grid-cols-3 
@@ -141,8 +136,7 @@
 
       <div>
         <h3 class="font-semibold mb-3">Newsletter</h3>
-        <input type="email" placeholder="Enter email"
-          class="w-full px-4 py-2 rounded-lg text-black mb-3">
+        <input type="email" placeholder="Enter email" class="w-full px-4 py-2 rounded-lg text-black mb-3">
         <button class="bg-red-500 px-6 py-2 rounded-lg w-full">Subscribe</button>
       </div>
 
@@ -154,4 +148,5 @@
   <script src="card.js"></script>
 
 </body>
+
 </html>
