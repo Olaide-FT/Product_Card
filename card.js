@@ -466,7 +466,7 @@ function displayProducts() {
       <img src="${value.image}" class="w-full h-56 sm:h-60 md:h-64 object-cover">
 
       <div class="p-4">
-        <h3 class="font-semibold">${value.name}</h3>
+        <h3 class="font-semibold truncate">${value.name}</h3>
 
         <div class="flex gap-3 mt-2 items-center">
           <span class="text-red-500 font-bold">₦${value.newPrice}</span>
